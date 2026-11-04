@@ -1,0 +1,106 @@
+Kafka
+
+Streaming 
+
+Multiple machines and each machine is call broker
+Producer —produce—> Topic <—consumes—consumer
+Producer could be any API such as java api etc 
+
+
+There are 2 types of communication:
+1. Synchronus communication
+2. Asynchronous commnunication - which doesn’t wait for response, example sending email. 
+
+
+Kafak is used for Synchronous communication
+
+2 kinds of communication:
+1. pubSub
+2. Point-to-point
+
+1. PubSub- all consumers consumes all the messages produced by each producers?
+	there’s only one partition 
+	P -> [m1,m2,m3 ] <- C{c1,c2,c3}
+
+2. Point-to-point - when there’s partitions and each producer produces to one partition and each consumer comumes from each partitions
+Topic:
+	m0 -> p0 <-c0
+	m1 -> p1 <-c1
+	m2 -> p2 <-c2
+
+
+
+
+Interview questions:
+	1. Suppose you have a topic that has partition, what are the ways to distribute in partition?
+	-> 3 ways:
+		a. Round robin fashion:
+			producers:-> m0,m1,m2
+			then message distribution within the partitions:  m0->p0
+										m1 -> p1
+										m2 -> p2
+		and if there another message then it goes to p0		m3 -> p0
+		b. Key- a producer can generate key to each message I.e, hashcode
+			k0: m0 - hashcode(k0) = 0%3=0
+			k1: m1 - hashcode(k1) = 1%3=1
+			k2: m2 - hashcode(k2) = 2%3=2
+		c. Passing partition while producer distributes the message
+
+	2. Why do we need partitions?
+	—> 
+
+
+What happens when:
+1. more consumers than partitions -extra consumers sits idle or used in place of broken consumer
+2. Less consumers than partitions - one consumer is duty to read more than one partition, meaning one consumer can read more than one partition as of its capacity in case of insufficient consumers per partitions
+
+
+Zookeeper - is a standalone service. It’s mostly used to create communication. 
+		- to coordinate between multiple services
+		- is a distributed coordination service
+
+
+Machine1 —talk— machine2 : but not reliable
+Thats where zookeepers comes in:
+Machine1 — zookeeper — machine2 : reliable communication
+
+
+What zookeeper does in Kafka?
+Kafka can have multiple consumers and producers. 
+Producer produces the message and in partition the messages are stored in order and consumer c
+
+Zookeeper keeps the metadata of each message consumed by consumers from a partition
+-> is responsible to elect leader machine/broker
+Helps -> In fault-tolerant (when a consumer does down)
+
+
+Zookeeper is responsible for leader election - helps in fault-tolarent 
+Leader - is responsible for First copy and all the read and write
+B1 	t1:p0	rt1:1	B1 is a leader for p0
+B1 	rt1:p0	t1:1	B2 is a leader for p1
+B1 	rt1:p0	rt1:1	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
